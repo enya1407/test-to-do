@@ -1,3 +1,21 @@
-.wrapper{
-  color: red
+.logoWrapper {
+  height: 100vh;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+.form {
+  width: 500px;
+}
+.input {
+  width: 400px;
 }
