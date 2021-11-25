@@ -25,7 +25,7 @@ const ToDoWrapper = () => {
       await form.validateFields();
       const newToDo = form.getFieldValue(["input"]);
 
-      dispatch(addDataAction({ id: uuidV4(), name: newToDo, checked: false }));
+      dispatch(addDataAction({ id: uuidV4(), value: newToDo, checked: false }));
       form.resetFields(["input"]);
     } catch (errorInfo) {
       console.log("errorInfo:", errorInfo);

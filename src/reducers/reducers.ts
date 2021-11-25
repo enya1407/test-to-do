@@ -1,22 +1,23 @@
-import { StateType } from "../types/types";
+import { IState } from "../types/types";
 import {
   addDataAction,
   changeLoadingAction,
   deleteDataAction,
+  editDataAction,
 } from "../actions/actions";
 import { createRootReducer } from "../utils/createRootReducer";
 import { v4 as uuidV4 } from "uuid";
 
-const initialState: StateType = {
+const initialState: IState = {
   isLoading: true,
   data: [
-    { id: uuidV4(), name: "не забыть 1", checked: true },
-    { id: uuidV4(), name: "не забыть 2", checked: false },
+    { id: uuidV4(), value: "не забыть 1", checked: true },
+    { id: uuidV4(), value: "не забыть 2", checked: false },
   ],
 };
 
 const changeLoadingReducer = (
-  state: StateType,
+  state: IState,
   action: ReturnType<typeof changeLoadingAction>
 ) => ({
   ...state,
@@ -24,7 +25,7 @@ const changeLoadingReducer = (
 });
 
 const addDataReducer = (
-  state: StateType,
+  state: IState,
   action: ReturnType<typeof addDataAction>
 ) => {
   console.log(state, action);
@@ -35,10 +36,22 @@ const addDataReducer = (
 };
 
 const deleteDataReducer = (
-  state: StateType,
+  state: IState,
   action: ReturnType<typeof deleteDataAction>
 ) => {
   const newData = state.data.filter((el) => el.id !== action.payload.id);
+  return {
+    ...state,
+    data: newData,
+  };
+};
+const editDataReducer = (
+  state: IState,
+  action: ReturnType<typeof editDataAction>
+) => {
+  const newData = state.data.map((el) =>
+    el.id === action.payload.data.id ? action.payload.data : el
+  );
   return {
     ...state,
     data: newData,
@@ -49,4 +62,5 @@ export const rootReducer = createRootReducer(initialState)([
   [changeLoadingReducer, changeLoadingAction],
   [addDataReducer, addDataAction],
   [deleteDataReducer, deleteDataAction],
+  [editDataReducer, editDataAction],
 ]);

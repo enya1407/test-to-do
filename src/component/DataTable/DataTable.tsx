@@ -2,112 +2,117 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { commonSelector } from "../../selector/setector";
 import { Button, Checkbox, Input, Table } from "antd";
-import { dataType } from "../../types/types";
+import { IData } from "../../types/types";
 import style from "./DataTable.module.css";
-import { deleteDataAction } from "../../actions/actions";
+import {
+  addDataAction,
+  deleteDataAction,
+  editDataAction,
+} from "../../actions/actions";
 
 const DataTable = () => {
   const { data } = useSelector(commonSelector);
   const dispatch = useDispatch();
 
+  const [edit, setEdit] = useState<IData>({
+    id: "",
+    value: "",
+    checked: false,
+  });
+
+  const saveHandler = () => {
+    dispatch(
+      editDataAction({ id: edit.id, value: edit.value, checked: edit.checked })
+    );
+    setEdit({ id: "", value: "", checked: false });
+  };
+
+  const cancelHandler = () => {
+    setEdit({ id: "", value: "", checked: false });
+  };
+  const editHandler = (record: IData) => {
+    setEdit(record);
+  };
   const deleteHandler = (id: string) => {
     dispatch(deleteDataAction(id));
   };
-  const [edit, setEdit] = useState<string>("");
 
+  const checkedHandler = (record: IData) => {
+    if (record.id === edit.id) {
+      setEdit({ id: "", value: "", checked: false });
+    }
+    dispatch(
+      editDataAction({
+        id: record.id,
+        value: record.value,
+        checked: !record.checked,
+      })
+    );
+  };
   const columns = [
     {
       title: "checked",
       dataIndex: "checked",
       width: 50,
-      render: (_: any, record: dataType) => (
-        <Checkbox checked={record.checked}></Checkbox>
+      render: (_: any, record: IData) => (
+        <Checkbox
+          checked={record.checked}
+          onChange={() => checkedHandler(record)}
+        ></Checkbox>
       ),
     },
     {
-      title: "name",
-      dataIndex: "name",
-      render: (_: any, record: dataType) =>
-        edit === record.id ? <Input></Input> : <span>{record.name}</span>,
+      title: "value",
+      dataIndex: "value",
+      render: (_: any, record: IData) =>
+        edit.id === record.id ? (
+          <Input
+            value={edit.value}
+            onChange={(e) => setEdit({ ...edit, value: e.target.value })}
+          ></Input>
+        ) : (
+          <span
+            style={{ textDecoration: record.checked ? "line-through" : "none" }}
+          >
+            {record.value}
+          </span>
+        ),
     },
     {
       title: "action",
       dataIndex: "action",
       width: 170,
-      render: (_: any, record: dataType) =>
-        edit === record.id ? (
+      render: (_: any, record: IData) =>
+        edit.id === record.id ? (
           <>
-            <Button>Save</Button> <Button>cancel</Button>
+            <Button onClick={saveHandler}>Save</Button>{" "}
+            <Button onClick={cancelHandler}>cancel</Button>
           </>
         ) : (
           <>
-            <Button onClick={() => setEdit(record.id)}>Edit</Button>{" "}
-            <Button onClick={() => deleteHandler(record.id)}>Delete</Button>
+            <Button
+              disabled={record.checked}
+              onClick={() => editHandler(record)}
+            >
+              Edit
+            </Button>{" "}
+            <Button
+              disabled={record.checked}
+              onClick={() => deleteHandler(record.id)}
+            >
+              Delete
+            </Button>
           </>
         ),
     },
   ];
-  //
-  // const renderEditableCell = (dataIndex: string, record: any) => {
-  //   switch (dataIndex) {
-  //     case "name":
-  //       return (
-  //         <Form.Item
-  //           rules={[
-  //             {
-  //               required: true,
-  //               validateTrigger: "onSubmit",
-  //               validator: (rules, value) => {
-  //                 const newRow = data.filter((el: any) => el?.name === "");
-  //                 const repeat = data.filter((el: any) => el?.name === value);
-  //
-  //                 if (!value.trim()) {
-  //                   return Promise.reject(new Error("Введите номер площади"));
-  //                 } else if (
-  //                   (newRow.length > 0 && repeat.length > 0) ||
-  //                   repeat.length > 1
-  //                 ) {
-  //                   return Promise.reject(
-  //                     new Error(`Площадь ${value} существует`)
-  //                   );
-  //                 } else {
-  //                   return Promise.resolve();
-  //                 }
-  //               },
-  //             },
-  //           ]}
-  //           style={{ margin: 0 }}
-  //           name={dataIndex}
-  //         >
-  //           <Input />
-  //         </Form.Item>
-  //       );
-  //   }
-  // };
-  // const EditableCell = ({
-  //   editing,
-  //   dataIndex,
-  //   title,
-  //   inputType,
-  //   record,
-  //   index,
-  //   children,
-  //   ...restProps
-  // }) => {
-  //   const cell = editing ? renderEditableCell(dataIndex, record) : children;
-  //   return <td {...restProps}>{cell}</td>;
-  // };
+
   return (
     <Table
       columns={columns}
       dataSource={data}
       className={style.table}
       pagination={false}
-      // components={{
-      //   body: {
-      //     cell: EditableCell,
-      //   },
-      // }}
     />
   );
 };

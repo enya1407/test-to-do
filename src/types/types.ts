@@ -1,9 +1,9 @@
-export interface dataType{
-  id:string,
-  name:string,
-  checked:boolean
+export interface IData {
+  id: string;
+  value: string;
+  checked: boolean;
 }
-export interface StateType {
+export interface IState {
   isLoading: boolean;
-  data:dataType[]
+  data: IData[];
 }
