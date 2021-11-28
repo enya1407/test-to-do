@@ -1,31 +1,33 @@
 import React from "react";
 import style from "./ToDoWrapper.module.css";
-import {loadingSelector} from "../../store/setector";
+import { loadingSelector, todosSelector } from "../../store/setector";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Input, Row, Spin } from "antd";
 import DataTable from "../DataTable/DataTable";
 import { v4 as uuidV4 } from "uuid";
-import { addDataAction } from "../../store/actions";
+import { addDataAction, changeLoadingAction } from "../../store/actions";
 
 const ToDoWrapper = () => {
   const [form] = Form.useForm();
-  const isLoading = useSelector(loadingSelector);
-  const dispatch = useDispatch();
 
-  if (isLoading) {
-    return (
-      <div className={style.wrapper}>
-        <Spin size="large" />
-      </div>
-    );
-  }
+  const todos = useSelector(todosSelector);
+
+  const dispatch = useDispatch();
 
   const submitHandler = async () => {
     try {
+      dispatch(changeLoadingAction(true));
       await form.validateFields();
       const newToDo = form.getFieldValue(["input"]);
 
-      dispatch(addDataAction({ id: uuidV4(), value: newToDo, checked: false }));
+      dispatch(
+        addDataAction({
+          id: uuidV4(),
+          value: newToDo,
+          checked: false,
+          priority: todos.length > 0 ? todos[0].priority + 1 : 1,
+        })
+      );
       form.resetFields(["input"]);
     } catch (errorInfo) {
       console.log("errorInfo:", errorInfo);
@@ -33,12 +35,7 @@ const ToDoWrapper = () => {
   };
   return (
     <div className={style.wrapper}>
-      <Form
-        form={form}
-        className={style.form}
-        onValuesChange={(value) => console.log(value)}
-        onFinish={() => submitHandler()}
-      >
+      <Form form={form} className={style.form} onFinish={() => submitHandler()}>
         <Row justify={"space-between"}>
           {" "}
           <Form.Item

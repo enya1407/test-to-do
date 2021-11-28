@@ -23,3 +23,11 @@ export const editDataAction = (todo: ITodo) => ({
   type: "EDIT_DATA",
   payload: { todo },
 });
+export const editPriorityAction = (
+  draggableId: string,
+  leftId?: string,
+  rightId?: string
+) => ({
+  type: "EDIT_PROPERTY",
+  payload: { draggableId, leftId, rightId },
+});

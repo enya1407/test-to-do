@@ -3,12 +3,13 @@ import "./App.css";
 import ToDoWrapper from "./components/ToDoWrapper/ToDoWraper";
 import { useDispatch } from "react-redux";
 import "antd/dist/antd.css";
-import { fetchDataAction } from "./store/actions";
+import {changeLoadingAction, fetchDataAction} from "./store/actions";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(changeLoadingAction(true))
     dispatch(fetchDataAction());
   }, []);
 
