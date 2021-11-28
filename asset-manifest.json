@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/https,://enya1407.github.io/test-to-do/static/css/main.53a956ef.chunk.css",
-    "main.js": "/https,://enya1407.github.io/test-to-do/static/js/main.9eb4617a.chunk.js",
-    "main.js.map": "/https,://enya1407.github.io/test-to-do/static/js/main.9eb4617a.chunk.js.map",
-    "runtime-main.js": "/https,://enya1407.github.io/test-to-do/static/js/runtime-main.4b6e7606.js",
-    "runtime-main.js.map": "/https,://enya1407.github.io/test-to-do/static/js/runtime-main.4b6e7606.js.map",
-    "static/css/2.4dca5ddc.chunk.css": "/https,://enya1407.github.io/test-to-do/static/css/2.4dca5ddc.chunk.css",
-    "static/js/2.6eb5e3c5.chunk.js": "/https,://enya1407.github.io/test-to-do/static/js/2.6eb5e3c5.chunk.js",
-    "static/js/2.6eb5e3c5.chunk.js.map": "/https,://enya1407.github.io/test-to-do/static/js/2.6eb5e3c5.chunk.js.map",
-    "index.html": "/https,://enya1407.github.io/test-to-do/index.html",
-    "static/css/2.4dca5ddc.chunk.css.map": "/https,://enya1407.github.io/test-to-do/static/css/2.4dca5ddc.chunk.css.map",
-    "static/css/main.53a956ef.chunk.css.map": "/https,://enya1407.github.io/test-to-do/static/css/main.53a956ef.chunk.css.map",
-    "static/js/2.6eb5e3c5.chunk.js.LICENSE.txt": "/https,://enya1407.github.io/test-to-do/static/js/2.6eb5e3c5.chunk.js.LICENSE.txt"
+    "main.css": "/test-to-do/static/css/main.53a956ef.chunk.css",
+    "main.js": "/test-to-do/static/js/main.9eb4617a.chunk.js",
+    "main.js.map": "/test-to-do/static/js/main.9eb4617a.chunk.js.map",
+    "runtime-main.js": "/test-to-do/static/js/runtime-main.986bade6.js",
+    "runtime-main.js.map": "/test-to-do/static/js/runtime-main.986bade6.js.map",
+    "static/css/2.4dca5ddc.chunk.css": "/test-to-do/static/css/2.4dca5ddc.chunk.css",
+    "static/js/2.25c0b0f1.chunk.js": "/test-to-do/static/js/2.25c0b0f1.chunk.js",
+    "static/js/2.25c0b0f1.chunk.js.map": "/test-to-do/static/js/2.25c0b0f1.chunk.js.map",
+    "index.html": "/test-to-do/index.html",
+    "static/css/2.4dca5ddc.chunk.css.map": "/test-to-do/static/css/2.4dca5ddc.chunk.css.map",
+    "static/css/main.53a956ef.chunk.css.map": "/test-to-do/static/css/main.53a956ef.chunk.css.map",
+    "static/js/2.25c0b0f1.chunk.js.LICENSE.txt": "/test-to-do/static/js/2.25c0b0f1.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.4b6e7606.js",
+    "static/js/runtime-main.986bade6.js",
     "static/css/2.4dca5ddc.chunk.css",
-    "static/js/2.6eb5e3c5.chunk.js",
+    "static/js/2.25c0b0f1.chunk.js",
     "static/css/main.53a956ef.chunk.css",
     "static/js/main.9eb4617a.chunk.js"
   ]
