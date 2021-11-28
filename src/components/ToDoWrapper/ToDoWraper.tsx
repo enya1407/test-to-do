@@ -1,15 +1,15 @@
 import React from "react";
 import style from "./ToDoWrapper.module.css";
-import { commonSelector } from "../../selector/setector";
+import {loadingSelector} from "../../store/setector";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, Input, InputNumber, Row, Spin } from "antd";
+import { Button, Form, Input, Row, Spin } from "antd";
 import DataTable from "../DataTable/DataTable";
-import { addDataAction } from "../../actions/actions";
 import { v4 as uuidV4 } from "uuid";
+import { addDataAction } from "../../store/actions";
 
 const ToDoWrapper = () => {
   const [form] = Form.useForm();
-  const { isLoading } = useSelector(commonSelector);
+  const isLoading = useSelector(loadingSelector);
   const dispatch = useDispatch();
 
   if (isLoading) {

@@ -1,9 +1,10 @@
-export interface IData {
+export interface ITodo {
   id: string;
   value: string;
   checked: boolean;
 }
+
 export interface IState {
   isLoading: boolean;
-  data: IData[];
+  todos: ITodo[];
 }

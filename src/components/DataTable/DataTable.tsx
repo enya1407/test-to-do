@@ -1,45 +1,37 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { commonSelector } from "../../selector/setector";
-import { Button, Checkbox, Input, Table } from "antd";
-import { IData } from "../../types/types";
+import React, {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {todosSelector} from "../../store/setector";
+import {Button, Checkbox, Input, Table} from "antd";
+import {ITodo} from "../../types/types";
 import style from "./DataTable.module.css";
-import {
-  addDataAction,
-  deleteDataAction,
-  editDataAction,
-} from "../../actions/actions";
+import {deleteDataAction, editDataAction} from "../../store/actions";
 
 const DataTable = () => {
-  const { data } = useSelector(commonSelector);
+  const todos = useSelector(todosSelector);
   const dispatch = useDispatch();
 
-  const [edit, setEdit] = useState<IData>({
-    id: "",
-    value: "",
-    checked: false,
-  });
+  const [edit, setEdit] = useState<ITodo | null>(null);
 
   const saveHandler = () => {
     dispatch(
-      editDataAction({ id: edit.id, value: edit.value, checked: edit.checked })
+      editDataAction(edit as ITodo)
     );
-    setEdit({ id: "", value: "", checked: false });
+    setEdit(null);
   };
 
   const cancelHandler = () => {
-    setEdit({ id: "", value: "", checked: false });
+    setEdit(null);
   };
-  const editHandler = (record: IData) => {
+  const editHandler = (record: ITodo) => {
     setEdit(record);
   };
   const deleteHandler = (id: string) => {
     dispatch(deleteDataAction(id));
   };
 
-  const checkedHandler = (record: IData) => {
-    if (record.id === edit.id) {
-      setEdit({ id: "", value: "", checked: false });
+  const checkedHandler = (record: ITodo) => {
+    if (edit && record.id === edit.id) {
+      setEdit(null);
     }
     dispatch(
       editDataAction({
@@ -54,7 +46,7 @@ const DataTable = () => {
       title: "checked",
       dataIndex: "checked",
       width: 50,
-      render: (_: any, record: IData) => (
+      render: (_: boolean, record: ITodo) => (
         <Checkbox
           checked={record.checked}
           onChange={() => checkedHandler(record)}
@@ -64,15 +56,15 @@ const DataTable = () => {
     {
       title: "value",
       dataIndex: "value",
-      render: (_: any, record: IData) =>
-        edit.id === record.id ? (
+      render: (_: string, record: ITodo) =>
+        edit && edit.id === record.id ? (
           <Input
             value={edit.value}
-            onChange={(e) => setEdit({ ...edit, value: e.target.value })}
+            onChange={(e) => setEdit({...edit, value: e.target.value})}
           ></Input>
         ) : (
           <span
-            style={{ textDecoration: record.checked ? "line-through" : "none" }}
+            style={{textDecoration: record.checked ? "line-through" : "none"}}
           >
             {record.value}
           </span>
@@ -82,8 +74,8 @@ const DataTable = () => {
       title: "action",
       dataIndex: "action",
       width: 170,
-      render: (_: any, record: IData) =>
-        edit.id === record.id ? (
+      render: (_: undefined, record: ITodo) =>
+        edit && edit.id === record.id ? (
           <>
             <Button onClick={saveHandler}>Save</Button>{" "}
             <Button onClick={cancelHandler}>cancel</Button>
@@ -110,9 +102,10 @@ const DataTable = () => {
   return (
     <Table
       columns={columns}
-      dataSource={data}
+      dataSource={todos}
       className={style.table}
       pagination={false}
+      rowKey={({id}) => id}
     />
   );
 };

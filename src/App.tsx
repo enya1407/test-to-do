@@ -1,20 +1,20 @@
-import React,{useEffect} from 'react';
-import './App.css';
-import ToDoWrapper from "./component/ToDoWrapper/ToDoWraper";
-import {useDispatch} from "react-redux";
-import {changeLoadingAction} from "./actions/actions";
-import 'antd/dist/antd.css'
+import React, { useEffect } from "react";
+import "./App.css";
+import ToDoWrapper from "./components/ToDoWrapper/ToDoWraper";
+import { useDispatch } from "react-redux";
+import "antd/dist/antd.css";
+import { fetchDataAction } from "./store/actions";
 
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(changeLoadingAction(false))
-  },[])
+  useEffect(() => {
+    dispatch(fetchDataAction());
+  }, []);
 
   return (
     <div className="App">
-      <ToDoWrapper/>
+      <ToDoWrapper />
     </div>
   );
 }

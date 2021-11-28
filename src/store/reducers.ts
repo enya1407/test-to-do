@@ -1,16 +1,17 @@
 import { IState } from "../types/types";
 import {
   addDataAction,
-  changeLoadingAction,
+  changeLoadingAction, dataFetchedAction,
   deleteDataAction,
   editDataAction,
-} from "../actions/actions";
+  fetchDataAction,
+} from "./actions";
 import { createRootReducer } from "../utils/createRootReducer";
 import { v4 as uuidV4 } from "uuid";
 
 const initialState: IState = {
   isLoading: true,
-  data: [
+  todos: [
     { id: uuidV4(), value: "не забыть 1", checked: true },
     { id: uuidV4(), value: "не забыть 2", checked: false },
   ],
@@ -19,47 +20,60 @@ const initialState: IState = {
 const changeLoadingReducer = (
   state: IState,
   action: ReturnType<typeof changeLoadingAction>
-) => ({
+): IState => ({
   ...state,
   isLoading: action.payload.isLoading,
+});
+
+const fetchDataReducer = (state: IState): IState => ({
+  ...state,
+  isLoading: true,
+});
+
+const dataFetchedReducer = (
+  state: IState,
+  action: ReturnType<typeof dataFetchedAction>
+): IState => ({
+  ...state,
+  todos: action.payload.todos,
+  isLoading: false,
 });
 
 const addDataReducer = (
   state: IState,
   action: ReturnType<typeof addDataAction>
-) => {
-  console.log(state, action);
-  return {
-    ...state,
-    data: [...state.data, action.payload.newData],
-  };
-};
+): IState => ({
+  ...state,
+  todos: [...state.todos, action.payload.todo],
+});
 
 const deleteDataReducer = (
   state: IState,
   action: ReturnType<typeof deleteDataAction>
-) => {
-  const newData = state.data.filter((el) => el.id !== action.payload.id);
+): IState => {
+  const newData = state.todos.filter((el) => el.id !== action.payload.id);
   return {
     ...state,
-    data: newData,
+    todos: newData,
   };
 };
 const editDataReducer = (
   state: IState,
   action: ReturnType<typeof editDataAction>
-) => {
-  const newData = state.data.map((el) =>
-    el.id === action.payload.data.id ? action.payload.data : el
+): IState => {
+  const newTodos = state.todos.map((el) =>
+    el.id === action.payload.todo.id ? action.payload.todo : el
   );
   return {
     ...state,
-    data: newData,
+    todos: newTodos,
   };
 };
 
 export const rootReducer = createRootReducer(initialState)([
   [changeLoadingReducer, changeLoadingAction],
+  [fetchDataReducer, fetchDataAction],
+  [dataFetchedReducer, dataFetchedAction],
   [addDataReducer, addDataAction],
   [deleteDataReducer, deleteDataAction],
   [editDataReducer, editDataAction],
